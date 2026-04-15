@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         SCANNER_HOME = tool 'SonarScanner'
-        NEXUS_URL = "http://localhost:8081/repository/python-releases"
+        NEXUS_URL = "http://nexus-1:8081/repository/python-releases/"
     }
 
     stages {
