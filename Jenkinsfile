@@ -23,6 +23,16 @@ pipeline {
             }
         }
 
+        stage('Unit Tests') {
+            steps {
+                sh '''
+                . .venv/bin/activate
+                export SDL_VIDEODRIVER=dummy
+                python -m unittest test_main.py
+                '''
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQubeServer') { 
