@@ -37,7 +37,7 @@ pipeline {
 
         stage('Upload to Nexus') {
             steps {
-                withCredentials([usernamePassword(credentialsId: '80bfa4bb-b200-4511-9309-c0589d1db30', 
+                withCredentials([usernamePassword(credentialsId: '80bfa4bb-b200-4511-9309-c0589d1db30e', 
                                                 usernameVariable: 'NEXUS_USER', 
                                                 passwordVariable: 'NEXUS_PASSWORD')]) {
                     sh """
