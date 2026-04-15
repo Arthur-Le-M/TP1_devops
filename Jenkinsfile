@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         SCANNER_HOME = tool 'SonarScanner'
+        NEXUS_URL = "http://localhost:8081/repository/python-releases"
     }
 
     stages {
@@ -30,6 +31,20 @@ pipeline {
                     -Dsonar.sources=. \
                     -Dsonar.language=py \
                     -Dsonar.exclusions=**/.venv/**,**/dist/**,**/build/**"
+                }
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: '80bfa4bb-b200-4511-9309-c0589d1db30', 
+                                                usernameVariable: 'NEXUS_USER', 
+                                                passwordVariable: 'NEXUS_PASSWORD')]) {
+                    sh """
+                    curl -v -u ${NEXUS_USER}:${NEXUS_PASSWORD} \
+                        --upload-file dist/main \
+                        ${NEXUS_URL}/main-v${env.BUILD_ID}
+                    """
                 }
             }
         }
